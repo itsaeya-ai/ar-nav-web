@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>AR-Nav: Навигация внутри помещения</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+    <!-- Верхняя панель выбора цели -->
+    <div class="top-bar">
+        <span class="app-title">AR-Nav</span>
+        <select id="destination-select">
+            <option value="902">Цель: Ауд. 902</option>
+            <option value="903">Цель: Ауд. 903</option>
+            <option value="exit">Цель: Выход / Лифт</option>
+        </select>
+    </div>
+
+    <!-- Всплывающая подсказка по действию -->
+    <div id="instruction-toast" class="toast">Наведите камеру на маркер (Hiro или Kanji)</div>
+
+    <!-- Карточка информации об объекте (по кнопке i) -->
+    <div id="info-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="modal-title">Ауд. 902</h3>
+            <p id="modal-desc">Лаборатория компьютерных сетей и AR-технологий. 9 этаж, правое крыло.</p>
+            <button id="close-modal-btn" type="button">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- AR Сцена с маркерами -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <!-- Маркер 1: Hiro (например, точка у лифта) -->
+        <a-marker preset="hiro" id="marker-hiro">
+            <a-entity id="arrow-hiro" rotation="0 0 0">
+                <a-cone color="#2196F3" radius-bottom="0.3" radius-top="0" height="0.8" position="0 0.5 -0.3" rotation="-90 0 0"></a-cone>
+                <a-cylinder color="#2196F3" radius="0.12" height="0.6" position="0 0.5 0.3" rotation="-90 0 0"></a-cylinder>
+            </a-entity>
+        </a-marker>
+
+        <!-- Маркер 2: Kanji (например, поворот в коридоре) -->
+        <a-marker preset="kanji" id="marker-kanji">
+            <a-entity id="arrow-kanji" rotation="0 0 0">
+                <a-cone color="#4CAF50" radius-bottom="0.3" radius-top="0" height="0.8" position="0 0.5 -0.3" rotation="-90 0 0"></a-cone>
+                <a-cylinder color="#4CAF50" radius="0.12" height="0.6" position="0 0.5 0.3" rotation="-90 0 0"></a-cylinder>
+            </a-entity>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <!-- Нижняя панель кнопок (как в AR-Nav) -->
+    <div class="bottom-controls">
+        <button id="info-btn" class="circle-btn" title="Информация">i</button>
+        <button id="voice-btn" class="circle-btn" title="Озвучить">🔊</button>
+        <div id="target-badge" class="target-pill">📍 Ауд. 902</div>
+    </div>
+</body>
+</html>
